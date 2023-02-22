@@ -23,7 +23,7 @@
         },
         "HEROKU": {
             "description": "Is the bot running on heroku? If you're seeing this, then probably it's true.",
-            "value": "true",
+            "value": "false",
             "required": false
         },
         "PREFIX": {
@@ -38,17 +38,17 @@
         },
         "OCR_API_KEY": {
             "description": "API key for using OCR (Optical Character Recognition) module. You can obtain this for free from https://ocr.space/",
-            "value": "",
+            "value": "78OSNhWA4vnK06Gq6BzI",
             "required": false
         },
         "WEATHER_API_KEY": {
             "description": "API key for using weather module. You can obtain this for free from https://openweathermap.org/",
-            "value": "",
+            "value": "5df24ff621b46f873d0266f12e0ae7ca",
             "required": false
         },
         "DEBUG": {
             "description": "Set this to true to see detailed logs.",
-            "value": "false",
+            "value": "true",
             "required": false
         },
         "WORK_TYPE": {
@@ -58,7 +58,7 @@
         },
         "SUDO": {
             "description": "List down the phone numbers in international format, separated by commas, who should have permission to use the bot. For example -> 917838xxxxxx,1875xxxxxxxx",
-            "value": "",
+            "value": "917011411568",
             "required": false
         }
     },

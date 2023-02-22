@@ -112,6 +112,7 @@ const data = {
         PROCESSING: "```Decoding. Please wait...```",
     },
     demote: {
+        NOT_FROM_ME: "```You are not the Bot Owner.```",
         DESCRIPTION: "Demote a person from admin",
         EXTENDED_DESCRIPTION:
             "```Use this module to demote a person from admin by entering the person's mobile number. Valid Syntaxes -\n    1. XXXXXXXXXX\n    2. YYXXXXXXXXXX ()\n\nFor example``` -\n*.demote 9861212121*",
@@ -201,7 +202,7 @@ const data = {
     news: {
         DESCRIPTION: "Fetch news in a mobile readable format",
         EXTENDED_DESCRIPTION:
-        "```Use this module to fetch news from a publication in mobile readable format from around 1500 publications. Enter text with the command```  *.news* .\n\nTo search for publications, use:-\n```.news search ``` _publication name_\n\nTo fetch news, use:-\n```.news fetch ``` _publication name_\n\nNews is fetched in epub format as it is more comfortable for reading in mobile devices. To read them in Android devices, you can use this application: https://play.google.com/store/apps/details?id=org.readera",
+            "```Use this module to fetch news from a publication in mobile readable format from around 1500 publications. Enter text with the command```  *.news* .\n\nTo search for publications, use:-\n```.news search ``` _publication name_\n\nTo fetch news, use:-\n```.news fetch ``` _publication name_\n\nNews is fetched in epub format as it is more comfortable for reading in mobile devices. To read them in Android devices, you can use this application: https://play.google.com/store/apps/details?id=org.readera",
         NO_COMMMAND: "```No arguments supplied. Use``` *.help news* ```for info on how to use the command.```",
         NO_PUB_NAME: "```No publication name supplied. Use``` *.help news* ```for info on how to use the command.```"
     },

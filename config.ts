@@ -40,4 +40,6 @@ const config = {
     OFFLINE_RESPONSE: process.env.OFFLINE_RESPONSE === undefined ? true : process.env.OFFLINE_RESPONSE
 }
 
+// console.log(config);
+
 export default config;
