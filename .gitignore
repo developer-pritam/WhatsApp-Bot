@@ -10,3 +10,5 @@ BotsApp.db
 yarn-error.log
 dist/
 session.data.json
+app.json
+config.env

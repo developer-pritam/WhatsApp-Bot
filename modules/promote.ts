@@ -5,6 +5,7 @@ import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 const REPLY = String.promote;
+const BOT_OWNER_COMMAND = String.BOT_OWNER_COMMAND;
 
 module.exports = {
     name: "promote",
@@ -12,6 +13,14 @@ module.exports = {
     extendedDescription: REPLY.EXTENDED_DESCRIPTION,
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
+            if (!BotsApp.fromMe) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    BOT_OWNER_COMMAND,
+                    MessageType.text
+                );
+                return;
+            }
             if (!BotsApp.isGroup) {
                 client.sendMessage(
                     BotsApp.chatId,

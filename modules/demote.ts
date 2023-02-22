@@ -5,7 +5,7 @@ import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 const REPLY = String.demote;
-
+const BOT_OWNER_COMMAND = String.BOT_OWNER_COMMAND;
 module.exports = {
     name: "demote",
     description: REPLY.DESCRIPTION,
@@ -16,7 +16,7 @@ module.exports = {
             if (!BotsApp.fromMe) {
                 client.sendMessage(
                     BotsApp.chatId,
-                    REPLY.NOT_FROM_ME,
+                    BOT_OWNER_COMMAND,
                     MessageType.text
                 );
                 return;

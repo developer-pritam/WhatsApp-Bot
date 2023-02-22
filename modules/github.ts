@@ -1,6 +1,6 @@
 import inputSanitization from "../sidekick/input-sanitization";
 import STRINGS from "../lib/db";
-import got, {Response} from "got";
+import got, { Response } from "got";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
@@ -10,7 +10,7 @@ module.exports = {
     name: "github",
     description: STRINGS.github.DESCRIPTION,
     extendedDescription: STRINGS.github.EXTENDED_DESCRIPTION,
-    demo: { isEnabled: true, text: ".github Prince-Mendiratta" },
+    demo: { isEnabled: true, text: ".github developer-pritam" },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
             let user_name: string = "";

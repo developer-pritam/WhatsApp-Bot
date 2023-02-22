@@ -5,6 +5,7 @@ import { MessageType } from "../sidekick/message-type"
 import inputSanitization from "../sidekick/input-sanitization";
 import Strings from "../lib/db";
 const Reply = Strings.unblock;
+const BOT_OWNER_COMMAND = Strings.BOT_OWNER_COMMAND;
 
 module.exports = {
     name: "unblock",
@@ -12,7 +13,15 @@ module.exports = {
     extendedDescription: Reply.EXTENDED_DESCRIPTION,
     demo: { isEnabled: false },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
-        try{
+        try {
+            if (!BotsApp.fromMe) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    BOT_OWNER_COMMAND,
+                    MessageType.text
+                );
+                return;
+            }
             if (!BotsApp.isTextReply && typeof args[0] == "undefined") {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -42,7 +51,7 @@ module.exports = {
                 return;
             }
 
-            if(contact === ""){
+            if (contact === "") {
                 client.sendMessage(
                     BotsApp.chatId,
                     Reply.MESSAGE_NOT_TAGGED,
@@ -50,13 +59,13 @@ module.exports = {
                 );
                 return;
             }
-                var JID = contact + "@s.whatsapp.net";
-                client.sock.updateBlockStatus(JID, "unblock");
-                client.sendMessage(
-                    BotsApp.chatId,
-                    "*" + contact + " unblocked successfully.*",
-                    MessageType.text
-                );
+            var JID = contact + "@s.whatsapp.net";
+            client.sock.updateBlockStatus(JID, "unblock");
+            client.sendMessage(
+                BotsApp.chatId,
+                "*" + contact + " unblocked successfully.*",
+                MessageType.text
+            );
 
         } catch (err) {
             await inputSanitization.handleError(

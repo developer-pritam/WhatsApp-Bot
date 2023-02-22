@@ -7,6 +7,7 @@ import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 const rbl = Strings.rbl;
+const BOT_OWNER_COMMAND = Strings.BOT_OWNER_COMMAND;
 
 module.exports = {
     name: "rbl",
@@ -15,6 +16,14 @@ module.exports = {
     demo: { isEnabled: true, text: ".rbl" },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
+            if (!BotsApp.fromMe) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    BOT_OWNER_COMMAND,
+                    MessageType.text
+                );
+                return;
+            }
             if (BotsApp.isPm && BotsApp.fromMe) {
                 let PersonToRemoveFromBlacklist = BotsApp.chatId;
                 if (!(await Blacklist.getBlacklistUser(PersonToRemoveFromBlacklist, ""))) {

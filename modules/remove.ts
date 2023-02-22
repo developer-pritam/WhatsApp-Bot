@@ -5,6 +5,7 @@ import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
+const BOT_OWNER_COMMAND = STRINGS.BOT_OWNER_COMMAND;
 
 module.exports = {
     name: "remove",
@@ -13,6 +14,14 @@ module.exports = {
     demo: { isEnabled: false },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
+            if (!BotsApp.fromMe) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    BOT_OWNER_COMMAND,
+                    MessageType.text
+                );
+                return;
+            }
             if (!BotsApp.isGroup) {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -86,7 +95,7 @@ module.exports = {
             }
             if (args[0][0] == "@") {
                 const number = args[0].substring(1);
-                if (parseInt(args[0]) === NaN) {
+                if (Number.isNaN(parseInt(args[0]))) {
                     client.sendMessage(
                         BotsApp.chatId,
                         STRINGS.remove.INPUT_ERROR,
@@ -95,7 +104,7 @@ module.exports = {
                     return;
                 }
 
-                if((number + "@s.whatsapp.net") === BotsApp.owner){
+                if ((number + "@s.whatsapp.net") === BotsApp.owner) {
                     client.sendMessage(
                         BotsApp.chatId,
                         "```Why man, why?! Why would you use my powers to remove myself from the group?!🥺```\n*Request Rejected.* 😤",

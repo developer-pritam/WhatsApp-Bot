@@ -9,6 +9,7 @@ import { MessageType } from "../sidekick/message-type";
 import format from "string-format";
 import fs from 'fs';
 const ADD = STRINGS.add;
+const BOT_OWNER_COMMAND = STRINGS.BOT_OWNER_COMMAND;
 
 module.exports = {
     name: "add",
@@ -17,6 +18,14 @@ module.exports = {
     demo: { isEnabled: false },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
+            if (!BotsApp.fromMe) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    BOT_OWNER_COMMAND,
+                    MessageType.text
+                );
+                return;
+            }
             if (!BotsApp.isGroup) {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -43,7 +52,7 @@ module.exports = {
                 return;
             }
             let number;
-            if (parseInt(args[0]) === NaN || args[0][0] === "+" || args[0].length < 10) {
+            if (Number.isNaN(parseInt(args[0])) || args[0][0] === "+" || args[0].length < 10) {
                 client.sendMessage(
                     BotsApp.chatId,
                     ADD.NUMBER_SYNTAX_ERROR,
@@ -51,7 +60,7 @@ module.exports = {
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             }
-            if (args[0].length == 10 && !(parseInt(args[0]) === NaN)) {
+            if (args[0].length == 10 && !(Number.isNaN(parseInt(args[0])))) {
                 number = CONFIG.COUNTRY_CODE + args[0];
             } else {
                 number = args[0];

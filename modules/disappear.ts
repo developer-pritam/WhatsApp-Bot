@@ -4,6 +4,7 @@ import Client from "../sidekick/client";
 import { proto } from "@adiwajshing/baileys";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type"
+const BOT_OWNER_COMMAND = STRINGS.BOT_OWNER_COMMAND;
 
 module.exports = {
     name: "disappear",
@@ -13,6 +14,14 @@ module.exports = {
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
             var time: any = 7 * 24 * 60 * 60;
+            if (!BotsApp.fromMe) {
+                client.sendMessage(
+                    BotsApp.chatId,
+                    BOT_OWNER_COMMAND,
+                    MessageType.text
+                );
+                return;
+            }
             if (BotsApp.isPm) {
                 client.sendMessage(
                     BotsApp.chatId,
@@ -25,13 +34,13 @@ module.exports = {
                 if (chat.message.extendedTextMessage == null) {
                     await client.sock.sendMessage(
                         BotsApp.chatId,
-                        {disappearingMessagesInChat: time}
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        { disappearingMessagesInChat: time }
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 } else {
                     await client.sock.sendMessage(
                         BotsApp.chatId,
-                        {disappearingMessagesInChat: false}
-                        ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                        { disappearingMessagesInChat: false }
+                    ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 }
                 return;
             }
@@ -42,8 +51,8 @@ module.exports = {
             }
             await client.sock.sendMessage(
                 BotsApp.chatId,
-                {disappearingMessagesInChat: time}
-                ).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                { disappearingMessagesInChat: time }
+            ).catch(err => inputSanitization.handleError(err, client, BotsApp));
             return;
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
