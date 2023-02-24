@@ -104,6 +104,8 @@ setInterval(() => {
 
         sock.ev.process(
             async (events) => {
+
+
                 if (events['connection.update']) {
                     const update = events['connection.update'];
                     const { connection, lastDisconnect } = update;
@@ -159,14 +161,17 @@ setInterval(() => {
                 if (events['messages.upsert']) {
                     const upsert = events['messages.upsert'];
                     // console.log(JSON.stringify(upsert, undefined, 2))
+                    console.log(chalk.redBright.bold(`[INFO] New message received. (upsert)`));
                     if (upsert.type !== 'notify') {
                         return;
                     }
-                    for(const msg of upsert.messages){
+                    for (const msg of upsert.messages) {
                         let chat: proto.IWebMessageInfo = msg;
+                        console.log(chalk.redBright.bold(`[INFO] New message received.`));
                         let BotsApp: BotsApp = await resolve(chat, sock);
                         // console.log(BotsApp);
                         if (BotsApp.isCmd) {
+                            console.log(chalk.redBright.bold(`[INFO] New command received.`));
                             let isBlacklist: boolean = await Blacklist.getBlacklistUser(BotsApp.sender, BotsApp.chatId);
                             const cleared: boolean = await clearance(BotsApp, client, isBlacklist);
                             if (!cleared) {
@@ -180,6 +185,7 @@ setInterval(() => {
                             }
                             await sock.sendMessage(chat.key.remoteJid, reactionMessage);
                             console.log(chalk.redBright.bold(`[INFO] ${BotsApp.commandName} command executed.`));
+
                             const command = commandHandler.get(BotsApp.commandName);
                             var args = BotsApp.body.trim().split(/\s+/).slice(1);
                             if (!command) {

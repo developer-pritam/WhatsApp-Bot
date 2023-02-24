@@ -22,6 +22,7 @@ process.env.DATABASE_URL = process.env.DATABASE_URL === undefined ? './BotsApp.d
 process.env.DEBUG = process.env.DEBUG === undefined ? 'false' : process.env.DEBUG;
 
 const config = {
+    OPEN_AI_KEY: process.env.OPEN_AI_KEY ? process.env.OPEN_AI_KEY : "DEMO",
     NEWS_API_URL: process.env.NEWS_API_URL === undefined ? "http://43.204.197.96:8080/" : process.env.NEWS_API_URL,
     STRING_SESSION: process.env.STRING_SESSION === undefined ? '' : process.env.STRING_SESSION,
     HEROKU: process.env.HEROKU === undefined ? false : true,

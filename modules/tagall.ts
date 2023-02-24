@@ -18,7 +18,7 @@ module.exports = {
     },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            if(BotsApp.chatId === "917838204238-1632576208@g.us"){
+            if (BotsApp.chatId === "917838204238-1632576208@g.us") {
                 return; // Disable this for Spam Chat
             }
             if (!BotsApp.isGroup) {

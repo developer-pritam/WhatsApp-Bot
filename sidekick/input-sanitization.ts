@@ -21,11 +21,11 @@ const getCleanedContact = async (args: string[], client: Client, BotsApp: BotsAp
             jidNumber = args[0].substring(1, args[0].length + 1);
         }
         else {
-            client.sendMessage(BotsApp.chatId,"*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_", MessageType.text);
+            client.sendMessage(BotsApp.chatId, "*Enter valid contact number.* Approved Syntax:\n```1. XXXXXXXXXX``` \n```2. Tag the person``` \n```3. +(YYY)XXXXXXXXXX.``` \n_(YY- Country Code, without zeros)_", MessageType.text);
             return undefined;
         }
     } else {
-        jidNumber = args[0];       
+        jidNumber = args[0];
     }
 
     if (jidNumber.length < 8 || jidNumber.length > 13) {
@@ -35,14 +35,14 @@ const getCleanedContact = async (args: string[], client: Client, BotsApp: BotsAp
             MessageType.text
         );
         return undefined;
-    } 
-    else if (jidNumber.length === 10) { 
+    }
+    else if (jidNumber.length === 10) {
         jidNumber = countryCode + jidNumber;
     }
     console.log(jidNumber);
     var isOnWhatsApp = await client.sock.onWhatsApp(jidNumber);
-    if(isOnWhatsApp === undefined){
-        throw "NumberInvalid"; 
+    if (isOnWhatsApp === undefined) {
+        throw "NumberInvalid";
     }
 
     // isOnWhatsApp is not working
@@ -70,15 +70,15 @@ const deleteFiles = async (...locations: PathLike[]) => {
 // }
 
 const isMember = async (chatId: string, groupMembers: GroupParticipant[]) => {
-        var isMember = false;
-        if(!(chatId === undefined)){
-            for (const index in groupMembers) {
-                if (chatId == groupMembers[index].id.split("@")[0]) {
-                    isMember = true;
-                }
+    var isMember = false;
+    if (!(chatId === undefined)) {
+        for (const index in groupMembers) {
+            if (chatId == groupMembers[index].id.split("@")[0]) {
+                isMember = true;
             }
         }
-        return isMember;
+    }
+    return isMember;
 }
 
 const handleError = async (err, client, BotsApp, customMessage = "```Something went wrong. The error has been logged in log chats```") => {
@@ -132,6 +132,10 @@ export const adminCommands = [
     "tagall",
     "abl",
     "rbl"
+];
+
+export const superUserCommands = [
+    "addsudo",
 ];
 
 export const sudoCommands = ["block", "unblock"];

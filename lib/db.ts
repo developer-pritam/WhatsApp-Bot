@@ -1,5 +1,5 @@
 const data = {
-    BOT_OWNER_COMMAND: "```You are not the owner of the bot. So, dont try to use be smart. \n FackYou```",
+    BOT_OWNER_COMMAND: "```You are not the owner of the bot. So, dont try to be smart.\nFackYou```",
     general: {
         NUMBER_SYNTAX_ERROR:
             "```Enter a valid contact number as per the syntax below:\n    1. XXXXXXXXXX\n    2. Tag the person\n    3. YYXXXXXXXXXX (YY- Country Code, without zeros)```",
@@ -9,11 +9,23 @@ const data = {
             "```Sorry, don't have permission to do so since I am not an admin.```",
         ADMIN_PERMISSION: "```You need to be an admin to execute this command.```",
         SUDO_PERMISSION:
-            "```Hey there, I am 💠BotsApp💠. I guess you were trying to use my commands in``` *{BotsApp.groupName}*```. However, the bot is currently in {worktype} mode. This enables only the owner and sudo users to use the command``` *{commandName}* ```.\n\nIf you are keen to use my features, you can deploy BotsApp on your own account without much effort, in less than 5 minutes! Check out the links given below.```\n\n🔗https://mybotsapp.com\n🔗https://github.com/Prince-Mendiratta/BotsApp",
+            "```Hey there, I am 💠BotsApp💠. I guess you were trying to use my commands in``` *{BotsApp.groupName}*```. However, the bot is currently in {worktype} mode. This enables only the owner and sudo users to use the command``` *{commandName}* ```.",
         ERROR_TEMPLATE:
             "```Looks like something went wrong. Need not worry. Here are some logs since when the bot was not responding as expected.```\n```---------```\n```🧐 Command:``` *{commandName}*\n```😎 From Me?:``` *{fromMe}*\n```🗣️ Was a reply?:``` *{isReply}*\n```👥 In a group?``` *{isGroup}*\n```📥 In Inbox?``` *{isPm}*\n```📸 Command with image?``` *{isImage}*\n```🕺🏻 Is Bot group admin?``` *{isBotGroupAdmin}*\n```📈 Was Sender group admin?``` *{isSenderGroupAdmin}*\n```🫂 Was sender sudo?``` *{isSenderSudo}*\n```⚠️ Error:``` \n*{err}*\n```---------```\n_To figure out what exactly went wrong, please report/raise the issue on our support chat at_ https://chat.whatsapp.com/GRPWL8TBVq91lQig9JoqME",
         SUCCESSFUL_CONNECTION:
             "*BotsApp successfuly integrated.*\n```Bot is currently working in``` *{worktype}* ```mode.```\n```For more information regarding Bot working and permissions check out:``` \n🔗https://github.com/Prince-Mendiratta/BotsApp.\n\n⚠️ The bot will not work in this chat.",
+    },
+    chatGPT: {
+        DESCRIPTION: "Chat with the bot and it will reply to you.",
+        EXTENDED_DESCRIPTION:
+            "```Chat with the bot and it will reply to you.```",
+        NO_INPUT:
+            "```No input provided.\nPlease use the command```  *.carbon <text>*  ```or reply to a text message with```  *.carbon*  ```to carbonize the text.```",
+        CARBONIZING:
+            "```Converting your text into a code snippet. Please wait...```",
+        OUTPUT:
+            "*<< Here's your carbon image! >>*\n```Carbonized by BotsApp\nColour Scheme: {}```",
+        INVALID_REPLY: "```The replied message should be text.```",
     },
     abl: {
         DESCRIPTION: "Module to blacklist a person or a chat from using the bot.",
@@ -57,7 +69,7 @@ const data = {
         EXTENDED_DESCRIPTION:
             "```This module can be used to check if the bot is currently online or not.\n\nExample usage,```\n*.alive*",
         ALIVE_MSG:
-            "```💠 BotsApp by Pritam Kumar has been integrated successfully. 💠\n\nUse the ```  *.help*  ``` command to get a list of plugins that will make your WhatsApp experience much easier.\n```Check out my portfolio for more developerpritam.in.```",
+            "```💠 BotsApp by Pritam Kumar has been integrated successfully. 💠\n\nUse the ```  *.help*  ``` command to get a list of plugins that will make your WhatsApp experience much easier.\nCheck out my portfolio for more developerpritam.in.```",
     },
     block: {
         DESCRIPTION: "Block contact",

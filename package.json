@@ -27,6 +27,7 @@
         "jimp": "^0.16.1",
         "jsdom": "^19.0.0",
         "ocr-space-api-wrapper": "^1.0.6",
+        "openai": "^3.1.0",
         "pg": "^8.7.1",
         "pino": "^7.11.0",
         "qrcode-reader": "^1.0.4",

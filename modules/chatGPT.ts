@@ -1,90 +1,63 @@
 import chalk from "chalk";
 import String from "../lib/db.js";
-import * as Carbon from "unofficial-carbon-now";
 import inputSanitization from "../sidekick/input-sanitization";
 import format from "string-format";
 import Client from "../sidekick/client.js";
 import BotsApp from "../sidekick/sidekick";
 import { MessageType } from "../sidekick/message-type";
 import { proto } from "@adiwajshing/baileys";
+import OpenAI from "../services/openai";
+const ChatGPT = String.chatGPT;
 
-const CARBON = String.carbon;
 
 module.exports = {
-    name: "carbon",
-    description: CARBON.DESCRIPTION,
-    extendedDescription: CARBON.EXTENDED_DESCRIPTION,
+    name: "gpt",
+    description: ChatGPT.DESCRIPTION,
+    extendedDescription: ChatGPT.EXTENDED_DESCRIPTION,
     demo: {
         isEnabled: true,
         text: [
-            ".carbon Hi! Welcome to BotsApp.",
-            '.carbon #include <iostream> \nint main() \n{\n   std::cout << "Hello BotsApp!"; \n   return 0;\n} -t yeti',
-            ".carbon -t",
+            ".gpt Hi! Welcome to BotsApp.",
+            '.gpt What is the meaning of life? -q search',
+            ".gpt -t",
         ],
     },
     async handle(client: Client, chat: proto.IWebMessageInfo, BotsApp: BotsApp, args: string[]): Promise<void> {
         try {
-            let themes: string[] = [
-                "3024 night",
-                "a11y dark",
-                "blackboard",
-                "base 16 (dark)",
-                "base 16 (light)",
-                "cobalt",
-                "duotone",
-                "hopscotch",
-                "lucario",
-                "material",
-                "monokai",
-                "night owl",
-                "nord",
-                "oceanic next",
-                "one light",
-                "one dark",
-                "panda",
-                "paraiso",
-                "seti",
-                "shades of purple",
-                "solarized (dark)",
-                "solarized (light)",
-                "synthwave '84",
-                "twilight",
-                "verminal",
-                "vscode",
-                "yeti",
-                "zenburn",
-            ];
-            let code: string = "";
-            let themeInput: string;
+            let commandList: string[] = [
+                "meaning",
+                "search",
+            ]
+            let prompt: string = "";
+            let type: string = "search";
             if (args[0] == null && !BotsApp.isTextReply) {
                 await client.sendMessage(
                     BotsApp.chatId,
-                    CARBON.NO_INPUT,
+                    ChatGPT.NO_INPUT,
                     MessageType.text
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (BotsApp.isTextReply && !BotsApp.replyMessage) {
                 await client.sendMessage(
                     BotsApp.chatId,
-                    CARBON.INVALID_REPLY,
+                    ChatGPT.INVALID_REPLY,
                     MessageType.text
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return;
             } else if (BotsApp.isTextReply) {
-                code = BotsApp.replyMessage;
-                themeInput = themes[Math.floor(Math.random() * themes.length)];
+                prompt = BotsApp.replyMessage;
             } else {
                 try {
                     let text: string = BotsApp.body.replace(
                         BotsApp.body[0] + BotsApp.commandName + " ",
                         ""
                     );
-                    if (text[0] === "-" && text[1] === "t") {
+                    if (text[0] === "-" && text[1] === "q") {
                         if (text[2] == null) {
                             let counter: number = 1;
-                            let message: string = 'Available themes: ';
-                            themes.forEach((theme) => {
-                                message += `\n${counter}. ${theme}`;
+                            let message: string = 'Available commands: ';
+                            commandList.forEach((command) => {
+                                message += `\n${counter}. ${command}`;
                                 counter += 1;
                             })
                             await client.sendMessage(
@@ -97,55 +70,54 @@ module.exports = {
                         else {
                             await client.sendMessage(
                                 BotsApp.chatId,
-                                CARBON.NO_INPUT,
+                                ChatGPT.NO_INPUT,
                                 MessageType.text
                             ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                             return;
                         }
                     }
-                    let body: string[] = BotsApp.body.split("-t");
-                    code = body[0].replace(
+                    let body: string[] = BotsApp.body.split("-q");
+                    prompt = body[0].replace(
                         BotsApp.body[0] + BotsApp.commandName + " ",
                         ""
                     );
-                    themeInput = body[1].substring(1);
-                    if (!themes.includes(themeInput)) {
+                    type = body[1].substring(1);
+                    if (!commandList.includes(type)) {
                         await client.sendMessage(
                             BotsApp.chatId,
-                            CARBON.INVALID_THEME,
+                            "Invalid command. Use .gpt -q to see available commands.",
                             MessageType.text
                         ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                         return;
                     }
                 } catch (err) {
                     if (err instanceof TypeError) {
-                        code = BotsApp.body.replace(
+                        prompt = BotsApp.body.replace(
                             BotsApp.body[0] + BotsApp.commandName + " ",
                             ""
                         );
-                        themeInput =
-                            themes[Math.floor(Math.random() * themes.length)];
+
                     }
                 }
             }
+
             try {
                 const processing: proto.WebMessageInfo = await client.sendMessage(
                     BotsApp.chatId,
-                    CARBON.CARBONIZING,
+                    `Prompt: ${prompt}\nCommand Type: ${type}`,
                     MessageType.text
                 );
-                const carbon = new Carbon.createCarbon()
-                    .setCode(code)
-                    .setPrettify(true)
-                    .setTheme(themeInput);
-                const output = await Carbon.generateCarbon(carbon);
+
+                // Call OpenAI API
+                const response = await OpenAI(prompt, type).catch(err => inputSanitization.handleError(err, client, BotsApp));
+                let quote = await client.store.loadMessage(BotsApp.chatId, BotsApp.replyMessageId, undefined);
+
                 await client.sendMessage(
                     BotsApp.chatId,
-                    output,
-                    MessageType.image,
-                    {
-                        caption: format(CARBON.OUTPUT, themeInput),
-                    }
+                    `Chat GPT Response: ${response}`,
+                    MessageType.text, {
+                    quoted: quote
+                }
                 ).catch(err => inputSanitization.handleError(err, client, BotsApp));
                 return await client.deleteMessage(BotsApp.chatId, {
                     id: processing.key.id,
@@ -155,6 +127,7 @@ module.exports = {
             } catch (err) {
                 throw err;
             }
+
         } catch (err) {
             await inputSanitization.handleError(err, client, BotsApp);
         }
